@@ -168,6 +168,24 @@ class ApiController extends Controller
     // Delte Student
     public function deleteStudent($id)
     {
+        $student = Student::find($id);
 
+        if($student) {
+
+            $student->delete();
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Student Deleted Successfully"
+            ], 200);
+
+        }else {
+
+            return response()->json([
+                'status' => 404,
+                'message' => "No Such Student Found!"
+            ], 404);
+
+        }
     }
 }
