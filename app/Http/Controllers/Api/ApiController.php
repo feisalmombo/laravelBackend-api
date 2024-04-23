@@ -121,7 +121,48 @@ class ApiController extends Controller
     // Update Student
     public function updateStudent(Request $reques , $id)
     {
+        $validattor = Validator::make($request->all(), [
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:100',
+            'age' => 'required',
+            'phone_no' => 'required|digits:10',
+            'gender' => 'required',
+        ]);
 
+        if($validattor->fails()) {
+
+            return response()->json([
+                'status' => 422,
+                'errors' => $validattor->messages()
+            ], 422);
+
+        }else {
+
+            $student = Student::find($id);
+
+            if($student) {
+
+                $student->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'age' => $request->age,
+                    'phone_no' => $request->phone_no,
+                    'gender' => $request->gender,
+                    ]);
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => "Student Updated Successfully"
+                ], 200);
+
+            }else {
+
+                return response()->json([
+                    'status' => 404,
+                    'message' => "No Such Student Found!"
+                ], 404);
+            }
+        }
     }
 
     // Delte Student
