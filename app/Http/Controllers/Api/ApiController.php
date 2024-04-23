@@ -119,7 +119,7 @@ class ApiController extends Controller
     }
 
     // Update Student
-    public function updateStudent(Request $reques , $id)
+    public function updateStudent(Request $request, int $id)
     {
         $validattor = Validator::make($request->all(), [
             'name' => 'required|string|max:100',
