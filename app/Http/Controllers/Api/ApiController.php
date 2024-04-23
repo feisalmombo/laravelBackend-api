@@ -38,7 +38,7 @@ class ApiController extends Controller
             'name' => 'required|string|max:100',
             'email' => 'required|email|max:100',
             'age' => 'required',
-            'phone_no' => 'required|digits:20',
+            'phone_no' => 'required|digits:10',
             'gender' => 'required',
         ]);
 
