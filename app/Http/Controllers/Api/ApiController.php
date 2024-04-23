@@ -34,7 +34,46 @@ class ApiController extends Controller
     //Create Student
     public function CreateStudent(Request $request)
     {
+        $validattor = Validator::make($request->all(), [
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:100',
+            'age' => 'required',
+            'phone_no' => 'required|digits:20',
+            'gender' => 'required',
+        ]);
 
+        if($validattor->fails()) {
+
+            return response()->json([
+                'status' => 422,
+                'errors' => $validattor->messages()
+            ], 422);
+
+        }else {
+
+            $student = Student::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'age' => $request->age,
+                'phone_no' => $request->phone_no,
+                'gender' => $request->gender,
+            ]);
+
+            if($student) {
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => "Student Created Successfully"
+                ], 200);
+
+            }else {
+
+                return response()->json([
+                    'status' => 500,
+                    'message' => "Something Went Wrong"
+                ], 500);
+            }
+        }
     }
 
     // Single student API
